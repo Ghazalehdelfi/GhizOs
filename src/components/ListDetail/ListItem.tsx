@@ -4,8 +4,8 @@ import * as React from 'react'
 interface Props {
   title: string
   active: boolean
-  href: string
-  as: string
+  href?: string
+  as?: string
   description?: string | React.ReactElement
   byline?: string | React.ReactElement
   leadingAccessory?: React.ReactElement
@@ -16,7 +16,7 @@ export function ListItem({
   title,
   description,
   byline,
-  href,
+  href = '',
   as,
   active,
   leadingAccessory,

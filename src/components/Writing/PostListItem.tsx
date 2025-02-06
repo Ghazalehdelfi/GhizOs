@@ -1,24 +1,25 @@
 import * as React from 'react'
 
 import { ListItem } from '~/components/ListDetail/ListItem'
-import { Post } from '~/graphql/types.generated'
-import { timestampToCleanTime } from '~/lib/transformers'
 
 interface Props {
-  post: Post
+  post: string
   active: boolean
 }
 
+function splitCamelCase(str) {
+  return str.replace(/([a-z])([A-Z])/g, '$1 $2')
+}
+
 export const PostListItem = React.memo<Props>(({ post, active }) => {
-  const publishedAt = timestampToCleanTime({ timestamp: post.publishedAt })
+  const title = splitCamelCase(post)
   return (
     <ListItem
-      key={post.id}
+      key={post}
       href="/writing/[slug]"
-      as={`/writing/${post.slug}`}
-      title={post.title}
+      as={`/writing/${post}`}
+      title={title}
       description={null}
-      byline={post.publishedAt ? publishedAt.formatted : 'Draft'}
       active={active}
     />
   )

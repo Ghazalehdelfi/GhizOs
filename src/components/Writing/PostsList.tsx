@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router'
 import * as React from 'react'
-
+import fs from 'fs'
+import path from 'path'
 import { ListContainer } from '~/components/ListDetail/ListContainer'
-import { useGetPostsQuery } from '~/graphql/types.generated'
 
-import { LoadingSpinner } from '../LoadingSpinner'
 import { PostListItem } from './PostListItem'
-import { WritingTitlebar } from './WritingTitlebar'
+import { useEffect, useState } from 'react'
+import { TitleBar } from '../ListDetail/TitleBar'
 
 export const WritingContext = React.createContext({
   filter: 'published',
@@ -17,38 +17,22 @@ export function PostsList() {
   const router = useRouter()
   const [filter, setFilter] = React.useState('published')
   let [scrollContainerRef, setScrollContainerRef] = React.useState(null)
+  const [posts, setPosts] = useState<string[]>([])
 
-  const variables =
-    filter === 'published'
-      ? { filter: { published: true } }
-      : { filter: { published: false } }
+  useEffect(() => {
+    // Fetch the file list from the API
+    const fetchFiles = async () => {
+      try {
+        const response = await fetch('/api/listFiles')
+        const data: any = await response.json()
+        setPosts(data.files)
+      } catch (error) {
+        console.error('Error fetching files:', error)
+      }
+    }
 
-  const { data, error, loading, refetch } = useGetPostsQuery({ variables })
-
-  React.useEffect(() => {
-    refetch()
-  }, [filter])
-
-  if (error) {
-    return (
-      <ListContainer onRef={setScrollContainerRef}>
-        <div />
-      </ListContainer>
-    )
-  }
-
-  if (loading && !data?.posts) {
-    return (
-      <ListContainer onRef={setScrollContainerRef}>
-        <WritingTitlebar scrollContainerRef={scrollContainerRef} />
-        <div className="flex flex-1 items-center justify-center">
-          <LoadingSpinner />
-        </div>
-      </ListContainer>
-    )
-  }
-
-  const { posts } = data
+    fetchFiles()
+  }, [])
 
   const defaultContextValue = {
     filter,
@@ -58,13 +42,13 @@ export function PostsList() {
   return (
     <WritingContext.Provider value={defaultContextValue}>
       <ListContainer data-cy="posts-list" onRef={setScrollContainerRef}>
-        <WritingTitlebar scrollContainerRef={scrollContainerRef} />
-
+        <TitleBar scrollContainerRef={scrollContainerRef} title="Blog" />
         <div className="lg:space-y-1 lg:p-3">
           {posts.map((post) => {
-            const active = router.query?.slug === post.slug
+            const slug = post.split('.')[0]
+            const active = router.query?.slug === slug
 
-            return <PostListItem key={post.id} post={post} active={active} />
+            return <PostListItem post={slug} active={active} />
           })}
         </div>
       </ListContainer>
