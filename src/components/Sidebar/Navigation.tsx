@@ -1,27 +1,15 @@
 import { useRouter } from 'next/router'
 import * as React from 'react'
-import { Plus } from 'react-feather'
-
-import { GhostButton } from '~/components/Button'
 import {
-  AMAIcon,
   AppDissectionIcon,
   BookmarksIcon,
-  CampsiteIcon,
-  CritIcon,
   ExternalLinkIcon,
-  FigmaIcon,
   GitHubIcon,
   LinkedInIcon,
-  HackerNewsIcon,
   HomeIcon,
-  PodcastIcon,
-  SecurityChecklistIcon,
   StackIcon,
-  StaffDesignIcon,
-  TwitterIcon,
   WritingIcon,
-  YouTubeIcon,
+  LetterBoxdIcon,
 } from '~/components/Icon'
 
 import { NavigationLink } from './NavigationLink'
@@ -95,7 +83,7 @@ export function SidebarNavigation() {
       label: 'Online',
       items: [
         {
-          href: 'https://github.com/brianlovin',
+          href: 'https://www.linkedin.com/in/ghazalehdelfi/',
           label: 'LinkedIn',
           icon: LinkedInIcon,
           trailingAccessory: ExternalLinkIcon,
@@ -104,9 +92,18 @@ export function SidebarNavigation() {
           isExternal: true,
         },
         {
-          href: 'https://github.com/brianlovin',
+          href: 'https://github.com/Ghazalehdelfi',
           label: 'GitHub',
           icon: GitHubIcon,
+          trailingAccessory: ExternalLinkIcon,
+          isActive: false,
+          trailingAction: null,
+          isExternal: true,
+        },
+        {
+          href: 'https://letterboxd.com/ghizd/',
+          label: 'Letterboxd',
+          icon: LetterBoxdIcon,
           trailingAccessory: ExternalLinkIcon,
           isActive: false,
           trailingAction: null,

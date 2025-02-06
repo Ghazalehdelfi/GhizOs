@@ -65,43 +65,44 @@ function SectionContainer(props) {
 
 const workHistory = [
   {
-    href: 'https://notion.com',
-    title: 'Notion',
-    subtitle: 'Product Designer',
-    date: '2025—\u00a0\u00a0',
+    href: 'https://www.sanofi.com/',
+    title: 'Sanofi',
+    subtitle: 'ML Engineer',
+    date: '2024—\u00a0\u00a0',
   },
   {
-    href: 'https://campsite.com',
-    title: 'Campsite',
-    subtitle: 'Co-founder',
-    date: '2022—25',
+    href: 'https://www.sanofi.com/',
+    title: 'Sanofi',
+    subtitle: 'Software Engineer',
+    date: '2022—24',
   },
   {
-    href: 'https://github.com/mobile',
-    title: 'GitHub',
-    subtitle: 'Product Designer',
-    date: '2018—22',
+    href: 'https://www.janacorporation.com',
+    title: 'JANA Corporation',
+    subtitle: 'Software Engineer',
+    date: '2021—22',
   },
   {
-    href: 'https://github.com/withspectrum/spectrum',
-    title: 'Spectrum.chat',
-    subtitle: 'Co-founder',
-    date: '2017—18',
-  },
-  {
-    href: 'https://facebook.com',
-    title: 'Facebook',
-    subtitle: 'Product Designer',
-    date: '2015—17',
-  },
-  {
-    href: 'https://buffer.com',
-    title: 'Buffer',
-    subtitle: 'Product Designer',
-    date: '2013—15',
+    href: 'https://kite-uhn.com',
+    title: 'University Health Network | KITE Institute',
+    subtitle: 'Research Assistant',
+    date: '2019—21',
   },
 ]
-const schools = []
+const schools = [
+  {
+    href: 'https://bme.utoronto.ca',
+    title: 'University of Toronto',
+    subtitle: 'MASc | Biomedical Eng.',
+    date: '2017—19',
+  },
+  {
+    href: 'https://www.ee.sharif.ir/en/home',
+    title: 'Sharif University of Technology',
+    subtitle: 'BSc | Electrical Eng. + Math.',
+    date: '2012—17',
+  },
+]
 
 export function Intro() {
   return (
@@ -111,18 +112,25 @@ export function Intro() {
           <SectionContainer>
             <SectionTitle>Bio</SectionTitle>
             <SectionContent>
-              <div className="prose text-primary">
-                <p>
-                  Hey, I&apos;m Ghazaleh. I&apos;m a designer,{' '}
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://github.com/brianlovin"
-                  >
-                    software engineer
-                  </a>
-                  ,{' '}
-                </p>
+              <div className="flex flex-row gap-[10px]">
+                <Image
+                  priority
+                  src="/static/img/me.jpeg"
+                  width={300}
+                  height={150}
+                  className="rounded-2xl"
+                  quality={100}
+                  alt="Image of me"
+                />
+                <div className="prose text-primary">
+                  <p>
+                    Hey, I&apos;m Ghazaleh. I&apos;m a machine learning engineer
+                    and a full-stack software developer. I'm passionate about
+                    many things: software, mathematics, algorithms, movies and
+                    art. But they can all fit under the umbrella of learning and
+                    making and experiencing new things.
+                  </p>
+                </div>
               </div>
             </SectionContent>
           </SectionContainer>
@@ -130,16 +138,7 @@ export function Intro() {
           <SectionContainer>
             <SectionTitle>Where</SectionTitle>
             <SectionContent>
-              <Image
-                priority
-                src="/static/img/to.jpg"
-                width={800}
-                height={400}
-                className="rounded-2xl"
-                quality={100}
-                alt="Map of San Francisco with blue location dot in the middle"
-              />
-              <p className="flex items-center justify-end pt-2 space-x-2 text-sm text-quaternary md:text-right">
+              <p className="flex items-center space-x-2 text-quaternary md:text-right">
                 <MapPin size={12} />
                 <span>Toronto, CA</span>
               </p>
