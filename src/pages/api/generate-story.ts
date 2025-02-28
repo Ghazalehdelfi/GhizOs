@@ -24,12 +24,23 @@ export default async function handler(req: StoryRequest, res: NextApiResponse) {
     })
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o',
       messages: [
         {
           role: 'system',
-          content:
-            'You are a children’s book writer. Write an approximately 300-word story with the prompt provided by the user. At the end of each paragraph, summarize the paragraph in a sentence that can be used as a prompt for an image generator. Format each paragraph and summary like so: paragraph (summary: insert summary)',
+          content: `You are a children's book writer. Your task is to write a 500-word children's story based on the given prompt.
+            
+            **FORMAT RULES (STRICTLY FOLLOW):**
+            - Each paragraph must be separated by exactly **two new lines (\n\n)**
+            - Each paragraph must be followed by a summary, prefixed exactly as: **(Summary: [summary text])**
+            - No extra spaces, no blank lines before or after the summary.
+            - Example format:
+            
+              "Once upon a time, a little cat named Whiskers wanted to fly.\n\n
+              Whiskers tried different ways to fly, but he couldn't.\n\n
+              (Summary: A cat named Whiskers wants to fly)"
+            
+            Now, generate the story with these exact rules.`,
         },
         {
           role: 'user',
