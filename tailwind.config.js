@@ -45,6 +45,7 @@ module.exports = {
           '100%': { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
         },
       },
+      fontfamily: { story: ['Beyond Wonderland'] },
     },
   },
   plugins: [require('@tailwindcss/typography'), require('@tailwindcss/forms')],

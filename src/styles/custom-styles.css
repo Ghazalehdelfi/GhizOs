@@ -1,7 +1,12 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
-
+@font-face {
+  font-family: 'Beyond Wonderland';
+  src: url('/fonts/magical.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
 @layer base {
   html {
     @apply max-h-screen overflow-hidden text-base antialiased;

@@ -15,6 +15,7 @@ interface BookDetails {
 
 const StoryGenerator = () => {
   const [prompt, setPrompt] = useState('')
+  const [title, setTitle] = useState('')
   const [book, setBook] = useState<BookDetails | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(false)
@@ -35,14 +36,16 @@ const StoryGenerator = () => {
 
       const { story } = await storyRes.json()
       const bookDetails: BookDetails = {
-        title: `The Story of ${prompt}`,
+        title: title,
         pages: [],
       }
 
       const paragraphs = story.split('\n\n')
-
+      console.log(paragraphs)
       for (const paragraph of paragraphs) {
-        const [content, summary] = paragraph.split('(summary:')
+        const [content, summary] =
+          paragraph.split('(summary:') || paragraph.split('(Summary:')
+        console.log(summary)
         bookDetails.pages.push({ content: content.trim() })
 
         if (summary) {
@@ -96,9 +99,17 @@ const StoryGenerator = () => {
         <div className="flex flex-col gap-3 text-gray-1000 dark:text-gray-100">
           <input
             type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Title of your story ..."
+            className="p-3 border rounded-lg focus:ring focus:ring-blue-300"
+          />
+
+          <input
+            type="text"
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Enter a story idea..."
+            placeholder="Describe the story line .."
             className="p-3 border rounded-lg focus:ring focus:ring-blue-300"
           />
 
@@ -119,7 +130,12 @@ const StoryGenerator = () => {
 
         {book && (
           <div className="mt-6 p-4 border rounded-lg bg-gray-100">
-            <h2 className="text-xl font-semibold text-center">{book.title}</h2>
+            <h2
+              className="text-[40px] text-center"
+              style={{ fontFamily: 'Beyond Wonderland' }}
+            >
+              {book.title}
+            </h2>
 
             {book.pages.map((page, index) => (
               <div key={index} className="mt-4">

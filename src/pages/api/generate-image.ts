@@ -21,7 +21,7 @@ export default async function handler(
 
   try {
     const imageResponse = await openai.images.generate({
-      prompt: `In children's book illustration style, ${prompt}`,
+      prompt: `In children's book illustration style, create an image suitable for a page with this summery: ${prompt}`,
       n: 1,
       size: '512x512',
     })
