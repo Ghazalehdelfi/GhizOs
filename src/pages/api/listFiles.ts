@@ -1,24 +1,24 @@
-import fs from 'fs';
-import path from 'path';
-import { NextApiRequest, NextApiResponse } from 'next';
+import fs from 'fs'
+import { NextApiRequest, NextApiResponse } from 'next'
+import path from 'path'
 
 // Function to get all files in the directory (non-recursive)
 const getFilesInDirectory = (dir: string): string[] => {
-  const files = fs.readdirSync(dir);
+  const files = fs.readdirSync(dir)
   return files.filter((file) => {
-    const fullPath = path.join(dir, file);
-    return fs.statSync(fullPath).isFile();
-  });
-};
+    const fullPath = path.join(dir, file)
+    return fs.statSync(fullPath).isFile()
+  })
+}
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
-    const dirPath = path.join(process.cwd(), 'src', 'data', 'writing');
-    const allFiles = getFilesInDirectory(dirPath);
-    
-    res.status(200).json({ files: allFiles });
+    const dirPath = path.join(process.cwd(), 'src', 'data', 'writing')
+    const allFiles = getFilesInDirectory(dirPath)
+
+    res.status(200).json({ files: allFiles })
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Failed to read directory' });
+    console.error(error)
+    res.status(500).json({ error: 'Failed to read directory' })
   }
 }

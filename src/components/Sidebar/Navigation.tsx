@@ -1,15 +1,16 @@
 import { useRouter } from 'next/router'
 import * as React from 'react'
+
 import {
   AppDissectionIcon,
   BookmarksIcon,
   ExternalLinkIcon,
   GitHubIcon,
-  LinkedInIcon,
   HomeIcon,
+  LetterBoxdIcon,
+  LinkedInIcon,
   StackIcon,
   WritingIcon,
-  LetterBoxdIcon,
 } from '~/components/Icon'
 
 import { NavigationLink } from './NavigationLink'

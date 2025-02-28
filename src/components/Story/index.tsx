@@ -1,7 +1,9 @@
-import { useState } from 'react'
-import { LoadingSpinner } from '../LoadingSpinner'
 import Image from 'next/image'
+import { useState } from 'react'
+
 import { Detail } from '~/components/ListDetail/Detail'
+
+import { LoadingSpinner } from '../LoadingSpinner'
 
 interface BookPage {
   content?: string

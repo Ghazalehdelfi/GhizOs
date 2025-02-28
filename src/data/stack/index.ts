@@ -1,17 +1,17 @@
 import {
-  TSIcon,
+  ArgoIcon,
+  AWSIcon,
+  CSSIcon,
+  DockerIcon,
+  HTMLIcon,
+  KubernetesIcon,
+  LangchainIcon,
   NodeIcon,
   PythonIcon,
   PyTorchIcon,
-  ArgoIcon,
-  KubernetesIcon,
-  AWSIcon,
-  LangchainIcon,
   ReactIcon,
-  DockerIcon,
+  TSIcon,
   WBIcon,
-  CSSIcon,
-  HTMLIcon,
 } from '~/components/Icon'
 
 export interface StackItem {
