@@ -1,17 +1,13 @@
 {
-    "hosting": {
-      "site": "your-firebase-project-id",
-      "public": "public",
-      "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
-      "rewrites": [
-        {
-          "source": "**",
-          "function": "nextApp"
-        }
-      ]
-    },
-    "functions": {
-      "source": "functions"
-    }
+  "hosting": {
+    "public": ".next",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "functions": {
+    "source": "functions"
   }
-  
+}
