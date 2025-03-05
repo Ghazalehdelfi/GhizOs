@@ -8,9 +8,6 @@
     ]
   },
   "functions": {
-    "source": "functions",
-    "envVariables": {
-      "NODE_ENV": "production"
-    }
+    "source": "functions"
   }
 }
