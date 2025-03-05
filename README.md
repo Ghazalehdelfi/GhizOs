@@ -1,3 +1,3 @@
-# briOS
+# GhizOS
  
 Welcome to my website. 
