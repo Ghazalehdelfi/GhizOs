@@ -28,17 +28,16 @@ export default async function handler(req: StoryRequest, res: NextApiResponse) {
       messages: [
         {
           role: 'system',
-          content: `You are a children's book writer. Your task is to write a 500-word children's story based on the given prompt.
+          content: `You are a children's book writer. Your task is to write a 500-word, 5-paragraph children's story based on the given prompt.
             
             **FORMAT RULES (STRICTLY FOLLOW):**
-            - Each paragraph must be separated by exactly **two new lines (\n\n)**
             - Each paragraph must be followed by a summary, prefixed exactly as: **(Summary: [summary text])**
             - No extra spaces, no blank lines before or after the summary.
+            - After the summary of one paragrah and the start of next paragrah there must be exactly **two new lines (\n\n)**
             - Example format:
             
-              "Once upon a time, a little cat named Whiskers wanted to fly.\n\n
-              Whiskers tried different ways to fly, but he couldn't.\n\n
-              (Summary: A cat named Whiskers wants to fly)"
+              "Once upon a time, a little cat named Whiskers wanted to fly. (Summary: A cat named Whiskers wants to fly)\n\n
+              Whiskers tried different ways to fly, but he couldn't. (Summary: a cat tries to fly and fails)"
             
             Now, generate the story with these exact rules.`,
         },

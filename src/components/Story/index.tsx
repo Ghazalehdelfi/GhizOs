@@ -19,11 +19,12 @@ const StoryGenerator = () => {
   const [prompt, setPrompt] = useState('')
   const [title, setTitle] = useState('')
   const [book, setBook] = useState<BookDetails | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [loadingStory, setLoadingStory] = useState(false)
+  const [loadingImages, setLoadingImages] = useState(false)
   const [error, setError] = useState(false)
 
   const generateStory = async () => {
-    setLoading(true)
+    setLoadingStory(true)
     setError(false)
 
     try {
@@ -41,13 +42,10 @@ const StoryGenerator = () => {
         title: title,
         pages: [],
       }
-
+      setLoadingImages(true)
       const paragraphs = story.split('\n\n')
-      console.log(paragraphs)
       for (const paragraph of paragraphs) {
-        const [content, summary] =
-          paragraph.split('(summary:') || paragraph.split('(Summary:')
-        console.log(summary)
+        const [content, summary] = paragraph.split('(Summary:')
         bookDetails.pages.push({ content: content.trim() })
 
         if (summary) {
@@ -70,7 +68,8 @@ const StoryGenerator = () => {
       console.error(error)
       setError(true)
     } finally {
-      setLoading(false)
+      setLoadingStory(false)
+      setLoadingImages(false)
     }
   }
 
@@ -117,10 +116,20 @@ const StoryGenerator = () => {
 
           <button
             onClick={generateStory}
-            disabled={loading}
+            disabled={loadingStory || loadingImages}
             className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 disabled:opacity-50"
           >
-            {loading ? <LoadingSpinner /> : 'Generate Story'}
+            {loadingImages ? (
+              <div className="flex flex-row items-center gap-[10px]">
+                <LoadingSpinner /> Generating Illustrations
+              </div>
+            ) : loadingStory ? (
+              <div className="flex flex-row items-center gap-[10px]">
+                <LoadingSpinner /> Generating Story
+              </div>
+            ) : (
+              'Generate Story'
+            )}
           </button>
         </div>
 
