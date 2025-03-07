@@ -66,40 +66,40 @@ function SectionContainer(props) {
 const workHistory = [
   {
     href: 'https://www.sanofi.com/',
-    title: 'Sanofi',
-    subtitle: 'ML Engineer',
+    subtitle: 'Sanofi',
+    title: 'ML Engineer',
     date: '2024—\u00a0\u00a0',
   },
   {
     href: 'https://www.sanofi.com/',
-    title: 'Sanofi',
-    subtitle: 'Software Engineer',
+    subtitle: 'Sanofi',
+    title: 'Software Engineer',
     date: '2022—24',
   },
   {
     href: 'https://www.janacorporation.com',
-    title: 'JANA Corporation',
-    subtitle: 'Software Engineer',
+    subtitle: 'JANA Corporation',
+    title: 'Software Engineer',
     date: '2021—22',
   },
   {
     href: 'https://kite-uhn.com',
-    title: 'University Health Network | KITE Institute',
-    subtitle: 'Research Assistant',
+    subtitle: 'University Health Network | KITE Institute',
+    title: 'Research Assistant',
     date: '2019—21',
   },
 ]
 const schools = [
   {
     href: 'https://bme.utoronto.ca',
-    title: 'University of Toronto',
-    subtitle: 'MASc | Biomedical Eng.',
+    subtitle: 'University of Toronto',
+    title: 'MASc | Biomedical Eng.',
     date: '2017—19',
   },
   {
     href: 'https://www.ee.sharif.ir/en/home',
-    title: 'Sharif University of Technology',
-    subtitle: 'BSc | Electrical Eng. + Math.',
+    subtitle: 'Sharif University of Technology',
+    title: 'BSc | Electrical Eng. + Math.',
     date: '2012—17',
   },
 ]
@@ -116,8 +116,8 @@ export function Intro() {
                 <Image
                   priority
                   src="/static/img/me.jpeg"
-                  width={300}
-                  height={150}
+                  width={200}
+                  height={200}
                   className="rounded-2xl"
                   quality={100}
                   alt="Image of me"
@@ -125,13 +125,23 @@ export function Intro() {
                 <div className="prose text-primary">
                   <p>
                     Hey, I&apos;m Ghazaleh. I&apos;m a machine learning engineer
-                    and a full-stack software developer. I'm passionate about
-                    many things: software, mathematics, algorithms, movies and
-                    art. But they can all fit under the umbrella of learning and
-                    making and experiencing new things.
+                    and a full-stack software developer. My intention for this
+                    website is to create a space for myself where I can exist
+                    digitally. I'm interested in software development and
+                    artifical intelligence. I am currently working as a ML
+                    engineer and technical lead in Sanofi, a pharmacuetical
+                    company with an AI-forward vision.
                   </p>
                 </div>
               </div>
+              <p className="prose text-primary">
+                In my spare time I like to read and upskill on MLOps and data
+                science and implement small projects for my own amusement. you
+                can find my reading list under the bookmarks tab and some of my
+                projects under the projects section. I'm currently working on
+                shaping my thoughts, projects and readings into blog posts, so
+                stay tuned for that!
+              </p>
             </SectionContent>
           </SectionContainer>
 
