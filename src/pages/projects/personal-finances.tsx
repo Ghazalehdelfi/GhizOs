@@ -39,23 +39,25 @@ export default function PersonalFinances() {
 
         <div className="prose prose-quoteless prose-neutral dark:prose-invert">
           <p>
-            This project is a personal finance management application that helps
-            users track their expenses, manage budgets, and visualize their
-            financial data. The application provides features such as:
+            I struggle managing budgets and tracking my expenses. I wanted a
+            tool primarily for myself to gain a quick visual insight into how
+            much has been spent and where. I am able to download a csv file of
+            my latest credit card expenses through my bank. This tool allows me
+            to achieve this goal while all the data is on my personal computer,
+            the uploaded file is not stored anywhere and therefore is private
+            and secure. I use LLMs to generate automatic labels for each expense
+            but I provide a way to manually edit them if they don't seem
+            correct.
           </p>
-          <ul>
-            <li>Expense tracking and categorization</li>
-            <li>Budget planning and monitoring</li>
-            <li>Financial data visualization</li>
-            <li>Monthly and yearly reports</li>
-            <li>Investment portfolio tracking</li>
-          </ul>
 
           <h2>How to Use</h2>
           <p>Upload your expenses CSV file with the following format:</p>
           <pre className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
-            title,amount,date,group Groceries,50.25,2024-03-26,Food Netflix
-            Subscription,15.99,2024-03-25,Entertainment
+            title,amount,date
+            <br />
+            Groceries,50.25,2024-03-26
+            <br />
+            Netflix Subscription,15.99,2024-03-25
           </pre>
 
           <div className="my-8">
