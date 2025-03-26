@@ -78,6 +78,15 @@ export function SidebarNavigation() {
           trailingAction: null,
           isExternal: false,
         },
+        {
+          href: '/projects/personal-finances',
+          label: 'Personal Finances',
+          icon: AppDissectionIcon,
+          trailingAccessory: null,
+          isActive: router.asPath.indexOf('/projects/personal-finances') >= 0,
+          trailingAction: null,
+          isExternal: false,
+        },
       ],
     },
     {
