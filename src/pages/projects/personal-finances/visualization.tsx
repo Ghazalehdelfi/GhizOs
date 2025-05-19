@@ -1,9 +1,10 @@
+import { useRouter } from 'next/router'
 import * as React from 'react'
+
 import { Detail } from '~/components/ListDetail/Detail'
 import { TitleBar } from '~/components/ListDetail/TitleBar'
 import { ExpenseCharts } from '~/components/PersonalFinances/ExpenseCharts'
 import { ExpenseTable } from '~/components/PersonalFinances/ExpenseTable'
-import { useRouter } from 'next/router'
 
 interface Expense {
   title: string

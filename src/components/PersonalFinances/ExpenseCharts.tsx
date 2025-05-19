@@ -1,14 +1,14 @@
-import * as React from 'react'
 import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
+  ArcElement,
   BarElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Legend,
+  LinearScale,
   Title,
   Tooltip,
-  Legend,
-  ArcElement,
 } from 'chart.js'
+import * as React from 'react'
 import { Bar, Pie } from 'react-chartjs-2'
 
 ChartJS.register(

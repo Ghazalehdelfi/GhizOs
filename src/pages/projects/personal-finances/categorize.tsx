@@ -1,7 +1,8 @@
+import { useRouter } from 'next/router'
 import * as React from 'react'
+
 import { Detail } from '~/components/ListDetail/Detail'
 import { TitleBar } from '~/components/ListDetail/TitleBar'
-import { useRouter } from 'next/router'
 
 interface Expense {
   title: string

@@ -14,6 +14,6 @@ const bookmarks = [
   {
     title: 'The Moat of Low-Status',
     url: 'https://sashachapin.substack.com/p/the-moat-of-low-status-68a',
-  }
+  },
 ]
 export default bookmarks
