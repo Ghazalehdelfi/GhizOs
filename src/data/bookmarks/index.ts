@@ -9,11 +9,11 @@ const bookmarks = [
   },
   {
     title: 'Introspection By Doing',
-    url: 'https://www.henrikkarlsson.xyz/p/two-kinds-of-introspection'
+    url: 'https://www.henrikkarlsson.xyz/p/two-kinds-of-introspection',
   },
   {
     title: 'The Moat of Low-Status',
-    url: 'https://sashachapin.substack.com/p/the-moat-of-low-status-68a'
+    url: 'https://sashachapin.substack.com/p/the-moat-of-low-status-68a',
   }
 ]
 export default bookmarks
