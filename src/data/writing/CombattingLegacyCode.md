@@ -1,3 +1,4 @@
+# Pulling a Team Out of Legacy: a View From The Trenches
 Legacy systems are like haunted houses—full of history, clutter, and strange creaks no one can explain. Leading a team through modernizing such an environment isn't just about code; it’s about culture, communication, and compromise. Here’s what I’ve learned from the trenches.
 
 ## 1. Start Small – The Broken Windows Analogy
