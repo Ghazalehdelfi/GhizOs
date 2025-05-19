@@ -7,5 +7,13 @@ const bookmarks = [
     title: 'A Recipe for Training Neural Networks',
     url: 'http://karpathy.github.io/2019/04/25/recipe/',
   },
+  {
+    title: 'Introspection By Doing',
+    url: 'https://www.henrikkarlsson.xyz/p/two-kinds-of-introspection'
+  },
+  {
+    title: 'The Moat of Low-Status',
+    url: 'https://sashachapin.substack.com/p/the-moat-of-low-status-68a'
+  }
 ]
 export default bookmarks
