@@ -87,6 +87,15 @@ export function SidebarNavigation() {
           trailingAction: null,
           isExternal: false,
         },
+        {
+          href: '/projects/chatbot',
+          label: 'Secretary Agent',
+          icon: AppDissectionIcon,
+          trailingAccessory: null,
+          isActive: router.asPath.indexOf('/projects/chatbot') >= 0,
+          trailingAction: null,
+          isExternal: false,
+        },
       ],
     },
     {

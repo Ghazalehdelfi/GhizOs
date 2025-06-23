@@ -15,6 +15,8 @@ env:
     value: production
   - variable: OPENAI_API_KEY
     secret: OPENAI_API_KEY
+  - variable: SERVICE_ACCOUNT_JSON
+    secret: SERVICE_ACCOUNT_JSON
 
   # Grant access to secrets in Cloud Secret Manager.
   # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
