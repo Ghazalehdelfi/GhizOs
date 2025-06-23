@@ -53,6 +53,7 @@ It acts as a dispatcher, keeping the flow clear and responsibilities modular.
 **File:** `sync_agent/agent.py`
 
 This agent is the most complex and intelligent component. It:
+
 - Checks the phone book to see if the invitee has an agent.
 - If yes, uses A2A messaging to propose times.
 - If not, generates an email and handles replies.
@@ -80,6 +81,7 @@ The role is determined based on agent identity or task origin and is enforced in
 **File:** `calendar_agent/agent.py`
 
 This component interacts directly with the Google Calendar API. It:
+
 - Checks the user's availability.
 - Schedules an event once time is finalized.
 
@@ -101,7 +103,7 @@ Secretary Agent is powered by **Google's Agent Development Kit**, which offers:
 - **Context/state management**: Each agent maintains its own task session.
 - **Built-in connectors**: Email, calendar, and other tools integrate cleanly.
 
-The ADK allows each agent to focus on *what* to do, not *how* it communicates or stores state.
+The ADK allows each agent to focus on _what_ to do, not _how_ it communicates or stores state.
 
 ---
 
@@ -122,7 +124,8 @@ Here is how a full task flows through the system:
 ## 🌐 Hybrid Automation: Agents + Humans
 
 What makes Secretary Agent powerful is its hybrid model:
-- When everyone has an agent, it's *fully automated*.
+
+- When everyone has an agent, it's _fully automated_.
 - When someone doesn't, it still works by gracefully switching to human-friendly channels like email.
 
 This is a prime example of **agent collaboration across boundaries**: systems where automation enhances human interaction rather than replaces it.
@@ -132,6 +135,7 @@ This is a prime example of **agent collaboration across boundaries**: systems wh
 ## ✨ Conclusion
 
 Secretary Agent turns an annoying part of modern life—scheduling—into a seamless background process. With modular agents built using Google ADK, it showcases:
+
 - Clean separation of responsibilities
 - Smart fallback strategies
 - Seamless integration with real-world tools like Gmail and Google Calendar
@@ -141,4 +145,4 @@ As we move toward more intelligent systems, this project serves as a strong exam
 
 ---
 
-*Want to see the code? Check out [Secretary Agent on GitHub](https://github.com/Ghazalehdelfi/secretary_agent)*
+_Want to see the code? Check out [Secretary Agent on GitHub](https://github.com/Ghazalehdelfi/secretary_agent)_

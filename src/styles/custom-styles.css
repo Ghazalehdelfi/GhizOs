@@ -23,8 +23,6 @@
     z-index: -1;
     @apply bg-white dark:bg-black;
   }
-
-
 }
 
 @layer components {
@@ -68,14 +66,17 @@
   }
 
   .bg-dots {
-    background: linear-gradient(90deg, #f9fafb 15px, transparent 1%) center,
-      linear-gradient(#f9fafb 15px, transparent 1%) center, rgba(0, 0, 0, 0.24);
+    background:
+      linear-gradient(90deg, #f9fafb 15px, transparent 1%) center,
+      linear-gradient(#f9fafb 15px, transparent 1%) center,
+      rgba(0, 0, 0, 0.24);
     background-size: 16px 16px;
   }
 
   @media (prefers-color-scheme: dark) {
     .bg-dots {
-      background: linear-gradient(90deg, #050505 15px, transparent 1%) center,
+      background:
+        linear-gradient(90deg, #050505 15px, transparent 1%) center,
         linear-gradient(#050505 15px, transparent 1%) center,
         rgba(255, 255, 255, 0.16);
       background-size: 16px 16px;

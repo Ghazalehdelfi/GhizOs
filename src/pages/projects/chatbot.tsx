@@ -1,7 +1,7 @@
+import { Calendar, User, Users, X } from 'lucide-react'
 import { useRouter } from 'next/router'
 import * as React from 'react'
-import { useState, useRef, useEffect } from 'react'
-import { Users, X, User, Calendar } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
 
 import { Detail } from '~/components/ListDetail/Detail'
 import { TitleBar } from '~/components/ListDetail/TitleBar'
@@ -115,12 +115,12 @@ export default function Chatbot() {
           email: newEmail.trim() || null,
           agentName: newAgentName.trim() || null,
           agentUrl: newAgentUrl.trim() || null,
-        })
+        }),
       })
 
       if (response.ok) {
         const data = await response.json()
-        setContacts(prev => [data.contact, ...prev])
+        setContacts((prev) => [data.contact, ...prev])
         setNewFirstName('')
         setNewLastName('')
         setNewEmail('')
@@ -151,7 +151,9 @@ export default function Chatbot() {
       })
 
       if (response.ok) {
-        setContacts(prev => prev.filter(contact => contact.id !== contactId))
+        setContacts((prev) =>
+          prev.filter((contact) => contact.id !== contactId)
+        )
       } else {
         console.error('Failed to delete contact')
       }
@@ -166,7 +168,7 @@ export default function Chatbot() {
 
     const userMessage = input.trim()
     setInput('')
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }])
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }])
     setIsLoading(true)
 
     try {
@@ -176,9 +178,9 @@ export default function Chatbot() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            message: userMessage,
-            sessionId: sessionId
-        })
+          message: userMessage,
+          sessionId: sessionId,
+        }),
       })
 
       if (!response.ok) {
@@ -193,13 +195,22 @@ export default function Chatbot() {
       }
 
       const agentResponse = data.agent_response
-      setMessages(prev => [...prev, { role: 'agent', content: agentResponse }])
+      setMessages((prev) => [
+        ...prev,
+        { role: 'agent', content: agentResponse },
+      ])
     } catch (error) {
       console.error('Error:', error)
-      setMessages(prev => [...prev, { 
-        role: 'agent', 
-        content: error instanceof Error ? error.message : 'Sorry, I encountered an error. Please try again.' 
-      }])
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'agent',
+          content:
+            error instanceof Error
+              ? error.message
+              : 'Sorry, I encountered an error. Please try again.',
+        },
+      ])
     } finally {
       setIsLoading(false)
     }
@@ -216,7 +227,7 @@ export default function Chatbot() {
     try {
       const formattedDate = date.toISOString().split('T')[0]
       const response = await fetch(`/api/calendar?date=${formattedDate}`)
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch calendar events')
       }
@@ -238,7 +249,7 @@ export default function Chatbot() {
       weekday: 'long',
       year: 'numeric',
       month: 'long',
-      day: 'numeric'
+      day: 'numeric',
     })
   }
 
@@ -270,7 +281,9 @@ export default function Chatbot() {
         <Detail.Header>
           <Detail.Title>✨ Secretary Agent</Detail.Title>
           <p className="text-tertiary">
-            🤖 Your personal AI secretary! Powered by advanced A2A protocol, this agent helps manage your calendar, contacts, and more. Stay organized and efficient with your digital assistant! 💼
+            🤖 Your personal AI secretary! Powered by advanced A2A protocol,
+            this agent helps manage your calendar, contacts, and more. Stay
+            organized and efficient with your digital assistant! 💼
           </p>
         </Detail.Header>
 
@@ -320,9 +333,19 @@ export default function Chatbot() {
                       key={event.id}
                       className="mb-4 p-4 bg-gradient-to-r from-pink-500/20 to-purple-500/20 rounded-lg border border-pink-500/30 hover:from-pink-500/30 hover:to-purple-500/30 transition-all duration-200"
                     >
-                      <h4 className="text-white font-medium mb-1">{event.title}</h4>
+                      <h4 className="text-white font-medium mb-1">
+                        {event.title}
+                      </h4>
                       <p className="text-sm text-gray-300">
-                        {new Date(event.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {new Date(event.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {new Date(event.startTime).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}{' '}
+                        -{' '}
+                        {new Date(event.endTime).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
                       </p>
                     </div>
                   ))
@@ -427,15 +450,24 @@ export default function Chatbot() {
                           <User size={16} className="text-pink-300" />
                         </div>
                         <div>
-                          <h4 className="text-white font-medium">{contact.firstName} {contact.lastName}</h4>
+                          <h4 className="text-white font-medium">
+                            {contact.firstName} {contact.lastName}
+                          </h4>
                           {contact.email && (
-                            <p className="text-sm text-gray-400">{contact.email}</p>
+                            <p className="text-sm text-gray-400">
+                              {contact.email}
+                            </p>
                           )}
                           {contact.agentName && (
-                            <p className="text-sm text-gray-400">Agent: {contact.agentName}</p>
+                            <p className="text-sm text-gray-400">
+                              Agent: {contact.agentName}
+                            </p>
                           )}
                           {contact.agentUrl && (
-                            <p className="text-xs text-gray-500 truncate max-w-48" title={contact.agentUrl}>
+                            <p
+                              className="text-xs text-gray-500 truncate max-w-48"
+                              title={contact.agentUrl}
+                            >
                               URL: {contact.agentUrl}
                             </p>
                           )}
@@ -487,7 +519,10 @@ export default function Chatbot() {
             <div ref={messagesEndRef} />
           </div>
 
-          <form onSubmit={handleSubmit} className="p-4 border-t border-gray-800">
+          <form
+            onSubmit={handleSubmit}
+            className="p-4 border-t border-gray-800"
+          >
             <div className="flex space-x-4">
               <input
                 type="text"
@@ -509,4 +544,4 @@ export default function Chatbot() {
       </Detail.ContentContainer>
     </Detail.Container>
   )
-} 
+}

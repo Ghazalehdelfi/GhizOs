@@ -1,5 +1,5 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
 import { createClient } from '@supabase/supabase-js'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -29,19 +29,23 @@ async function getAllContacts(): Promise<Contact[]> {
     return []
   }
 
-  return data?.map(row => ({
-    id: row.id,
-    firstName: row.first_name,
-    lastName: row.last_name,
-    email: row.email,
-    agentName: row.agent_name,
-    agentUrl: row.agent_url,
-    createdAt: row.created_at,
-    updatedAt: row.updated_at
-  })) || []
+  return (
+    data?.map((row) => ({
+      id: row.id,
+      firstName: row.first_name,
+      lastName: row.last_name,
+      email: row.email,
+      agentName: row.agent_name,
+      agentUrl: row.agent_url,
+      createdAt: row.created_at,
+      updatedAt: row.updated_at,
+    })) || []
+  )
 }
 
-async function createContact(contact: Omit<Contact, 'id' | 'createdAt' | 'updatedAt'>): Promise<Contact | null> {
+async function createContact(
+  contact: Omit<Contact, 'id' | 'createdAt' | 'updatedAt'>
+): Promise<Contact | null> {
   const { data, error } = await supabase
     .from('contacts')
     .insert({
@@ -50,7 +54,7 @@ async function createContact(contact: Omit<Contact, 'id' | 'createdAt' | 'update
       last_name: contact.lastName,
       email: contact.email || null,
       agent_name: contact.agentName || null,
-      agent_url: contact.agentUrl || null
+      agent_url: contact.agentUrl || null,
     })
     .select()
     .single()
@@ -68,15 +72,12 @@ async function createContact(contact: Omit<Contact, 'id' | 'createdAt' | 'update
     agentName: data.agent_name,
     agentUrl: data.agent_url,
     createdAt: data.created_at,
-    updatedAt: data.updated_at
+    updatedAt: data.updated_at,
   }
 }
 
 async function deleteContact(id: string): Promise<boolean> {
-  const { error } = await supabase
-    .from('contacts')
-    .delete()
-    .eq('id', id)
+  const { error } = await supabase.from('contacts').delete().eq('id', id)
 
   if (error) {
     console.error('Error deleting contact:', error)
@@ -104,9 +105,11 @@ export default async function handler(
     case 'POST':
       try {
         const { firstName, lastName, email, agentName, agentUrl } = req.body
-        
+
         if (!firstName || !lastName) {
-          return res.status(400).json({ error: 'First name and last name are required' })
+          return res
+            .status(400)
+            .json({ error: 'First name and last name are required' })
         }
 
         const newContact = await createContact({
@@ -114,7 +117,7 @@ export default async function handler(
           lastName,
           email,
           agentName,
-          agentUrl
+          agentUrl,
         })
 
         if (newContact) {
@@ -131,7 +134,7 @@ export default async function handler(
     case 'DELETE':
       try {
         const { id } = req.query
-        
+
         if (!id || typeof id !== 'string') {
           return res.status(400).json({ error: 'Contact ID is required' })
         }
@@ -152,4 +155,4 @@ export default async function handler(
       res.setHeader('Allow', ['GET', 'POST', 'DELETE'])
       res.status(405).json({ error: 'Method not allowed' })
   }
-} 
+}

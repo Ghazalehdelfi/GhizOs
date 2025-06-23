@@ -10,25 +10,28 @@ export default async function handler(
 
   try {
     console.log('Sending request to A2A server:', req.body)
-    const response = await fetch('https://a2a-host-agent-695627813996.us-central1.run.app', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        method: 'tasks/send',
-        params: {
+    const response = await fetch(
+      'https://a2a-host-agent-695627813996.us-central1.run.app',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          method: 'tasks/send',
+          params: {
             id: crypto.randomUUID(),
             sessionId: req.body.sessionId,
             message: {
-            role: 'user',
-            parts: [{ type: 'text', text: req.body.message }]
+              role: 'user',
+              parts: [{ type: 'text', text: req.body.message }],
             },
             historyLength: null,
-            metadata: null
-        }
-      }),
-    })
+            metadata: null,
+          },
+        }),
+      }
+    )
 
     if (!response.ok) {
       throw new Error(`A2A server responded with status: ${response.status}`)
@@ -40,12 +43,15 @@ export default async function handler(
       throw new Error('Invalid response format from A2A server')
     }
 
-    res.status(200).json({agent_response: data.result.history[data.result.history.length - 1].parts[0].text})
+    res.status(200).json({
+      agent_response:
+        data.result.history[data.result.history.length - 1].parts[0].text,
+    })
   } catch (error) {
     console.error('Error in chat API:', error)
-    res.status(500).json({ 
+    res.status(500).json({
       message: 'Error communicating with A2A server',
-      error: error instanceof Error ? error.message : 'Unknown error'
+      error: error instanceof Error ? error.message : 'Unknown error',
     })
   }
-} 
+}

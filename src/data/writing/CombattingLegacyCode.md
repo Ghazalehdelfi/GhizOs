@@ -1,4 +1,5 @@
 # Pulling a Team Out of Legacy: a View From The Trenches
+
 Legacy systems are like haunted houses—full of history, clutter, and strange creaks no one can explain. Leading a team through modernizing such an environment isn't just about code; it’s about culture, communication, and compromise. Here’s what I’ve learned from the trenches.
 
 ## 1. Start Small – The Broken Windows Analogy
@@ -15,7 +16,7 @@ Look for the developers frustrated by the status quo but still optimistic. Give 
 
 ## 3. Build Bridges with the Business
 
-You can’t pull a system into the future if the business doesn’t understand *why* it matters.
+You can’t pull a system into the future if the business doesn’t understand _why_ it matters.
 
 Create feedback loops. Use language they understand—risk, velocity, customer impact. Modernization efforts fail when they’re seen as “tech for tech’s sake.” They succeed when the business sees improved delivery, stability, and adaptability.
 
@@ -23,7 +24,7 @@ Create feedback loops. Use language they understand—risk, velocity, customer i
 
 Purism kills momentum. Legacy systems rarely afford the luxury of greenfield ideals.
 
-Learn to compromise. Aim for *better*, not *perfect*. That might mean living with some old patterns longer than you'd like, or adopting tools that aren't your favorite. Progress > purity.
+Learn to compromise. Aim for _better_, not _perfect_. That might mean living with some old patterns longer than you'd like, or adopting tools that aren't your favorite. Progress > purity.
 
 ## 5. Tidy Up – Even if It’s Not Glamorous
 

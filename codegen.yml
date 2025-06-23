@@ -4,4 +4,3 @@ hooks:
   afterOneFileWrite:
     - eslint --fix
     - prettier --write
-
