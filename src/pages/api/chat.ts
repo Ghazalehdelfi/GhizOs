@@ -10,7 +10,7 @@ export default async function handler(
 
   try {
     console.log('Sending request to A2A server:', req.body)
-    const response = await fetch('http://localhost:10000', {
+    const response = await fetch('https://a2a-host-agent-695627813996.us-central1.run.app', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
