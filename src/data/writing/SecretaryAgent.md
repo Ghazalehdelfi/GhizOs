@@ -1,20 +1,30 @@
 # Automating Scheduling with Secretary Agent: A Deep Dive into the Architecture and Implementation
 
-In an age where productivity tools are everywhere, scheduling remains one of the most frustrating micro-tasks. It's not technically difficult, but the back-and-forth nature of coordinating between people—especially across organizations—makes it an annoying mental drain.
+In an age where productivity tools are everywhere, scheduling remains one of the most frustrating micro-tasks. It's not technically difficult, but the back-and-forth nature of coordinating between people—especially across organizations—makes it an annoying mental drain. I wanted to explore whether this could be gracefully automated using modern AI tooling — and more importantly, in a way that supports both fully digital workflows and real human interactions.
 
 **Secretary Agent** is a modular, multi-agent system built to handle this pain point. It automates the entire scheduling workflow: negotiating times, checking availability, handling human responses, and booking events. It uses Google's Agent Development Kit (ADK) to structure communication between agents and external services.
 
-In this post, we'll walk through the system architecture and explain how each part works in code.
+In this post, we'll walk through the system architecture and explain how each part works.
 
----
+## 🤓 What's the big idea?
+
+![High level system][/static/img/agent-system.png]
+
+The core concept is simple: treat scheduling as a task that can be delegated to intelligent agents.
+
+Imagine a world where you—and everyone in your contact list—have a personal secretary agent, much like having an email address. Your agent connects to your Google Calendar and Gmail, with the ability to retrieve availability, create events, and send or receive messages.
+
+You could say something like, “Hey, I want to have a meeting with John tomorrow.” Your secretary agent would check your contacts for John’s agent URL (if he has one) and initiate a conversation with his agent. If John’s availability aligns with yours, your agent books the meeting directly through the Google Calendar API.
+
+Now what if John doesnt have an agent? Let's assume John's contact in your phonebook only has an email, then the agent will send an email to John with something like: “Hi, I’m Ghazaleh’s assistant—she’d like to meet this week. When are you free?”. Now John will act as _his own secretary_ and interact with your agent. Every email reply is tied to the same session, so context is preserved until an agreement is reached and the meeting is booked.
 
 ## 📊 High-Level Architecture
 
-![Secretary Agent System Architecture](/static/img/diagram.svg)
+![Secretary Agent System Architecture](/static/img/system-components.png)
 
 At a glance, Secretary Agent consists of three specialized agents:
 
-1. **Host Agent**: Accepts user input and delegates scheduling tasks.
+1. **Host Agent**: Point of contact with core user, accepts user input and delegates tasks.
 2. **Sync Agent**: Coordinates meeting time with invitees via A2A (agent-to-agent) or email.
 3. **Calendar Agent**: Integrates with the Google Calendar API to check availability and create events.
 
@@ -26,9 +36,6 @@ At a glance, Secretary Agent consists of three specialized agents:
 
 The system determines whether the invitee has an agent (via a "phone book") and chooses the right communication channel: automated negotiation or human-in-the-loop via email.
 
-![Secretary Agent System Diagram](/static/img/diagram.svg)
-
----
 
 ## 💪 Core Components and Code Walkthrough
 
@@ -36,17 +43,12 @@ The system determines whether the invitee has an agent (via a "phone book") and 
 
 **File:** `host_agent/orchestrator.py`
 
-The Host Agent receives scheduling requests from the UI/API. Its job is to decide which sub-agent is responsible:
+The Host Agent handles all incoming scheduling requests from the UI or API. Its main job is to delegate tasks to the right sub-agent. It has two key tools:
 
-```python
-# Simplified pseudo-logic
-if task.type == "schedule_meeting":
-    sync_agent.handle(task)
-elif task.type == "confirm_time":
-    calendar_agent.schedule(task)
-```
+- `list_agents`: Looks up available agents in the registry (currently Sync and Calendar), fetches their metadata using A2A .well-known endpoints, and caches their capabilities.
+- `delegate_task`: Passes the task to the appropriate agent based on what’s available.
 
-It acts as a dispatcher, keeping the flow clear and responsibilities modular.
+This modular design makes the system extensible—you can plug in more agents as the ecosystem grows.
 
 ### 2. Sync Agent: The Negotiator
 
@@ -54,9 +56,11 @@ It acts as a dispatcher, keeping the flow clear and responsibilities modular.
 
 This agent is the most complex and intelligent component. It:
 
-- Checks the phone book to see if the invitee has an agent.
-- If yes, uses A2A messaging to propose times.
+- Checks the private phone book to see if the invitee has an agent. This phone book works like contact info: not public, but shared among people who know each other.
+- If the invitee has an agent, it initiates an A2A negotiation.
 - If not, generates an email and handles replies.
+
+To handle asynchronous human replies, the Sync Agent logs email session data to a database. It also runs a parallel thread that monitors the user’s inbox and forwards any new replies in active threads back to the appropriate agent session.
 
 ```python
 if invitee.has_agent():
@@ -67,14 +71,12 @@ else:
 
 #### 🔄 Asymmetrical Sync Design
 
-One of the key implementation challenges was **preventing infinite A2A negotiation loops** between two symmetric Sync Agents. To solve this, Secretary Agent introduces an **asymmetrical role assignment**:
+One of the key implementation challenges was **preventing infinite A2A negotiation loops** between two symmetric Sync Agents. If both users have identical agents, one agent’s request could trigger the other to respond in kind—causing a back-and-forth loop. To solve this, Secretary Agent introduces an **asymmetrical role assignment**. Each Sync Agent can act in one of two roles, each defined by a distinct system prompt and behavior. When a request is received, the Sync Agent’s task manager inspects the request's metadata and assigns the appropriate role before invoking the agent:
 
-- The **initiator** Sync Agent begins the negotiation process.
-- The **responder** simply acknowledges and replies with availability.
+- The **initiator** is the agent that starts the process. It takes responsibility for driving the scheduling conversation: contacting the other party (via A2A or email), proposing times, managing the negotiation, and ultimately calling the Calendar Agent to create the event.
+- The **responder** takes a more passive role. It simply replies to incoming scheduling requests with availability information and does not attempt to initiate a conversation or delegate tasks in return.
 
 This design ensures a clear direction for the communication flow and eliminates recursive back-and-forths that could otherwise occur between two identical agents trying to negotiate simultaneously.
-
-The role is determined based on agent identity or task origin and is enforced in logic handling the request type.
 
 ### 3. Calendar Agent: The Executor
 
@@ -85,27 +87,8 @@ This component interacts directly with the Google Calendar API. It:
 - Checks the user's availability.
 - Schedules an event once time is finalized.
 
-```python
-def schedule_event(start_time, end_time, participants):
-    service = build_calendar_service()
-    service.events().insert(...).execute()
-```
-
 The agent abstracts Google API interaction so that other agents never need to deal with credentials or response parsing.
 
----
-
-## 🎓 Using Google ADK
-
-Secretary Agent is powered by **Google's Agent Development Kit**, which offers:
-
-- **Agent-to-Agent protocol support**: Lightweight inter-agent messaging.
-- **Context/state management**: Each agent maintains its own task session.
-- **Built-in connectors**: Email, calendar, and other tools integrate cleanly.
-
-The ADK allows each agent to focus on _what_ to do, not _how_ it communicates or stores state.
-
----
 
 ## ⚛️ Execution Flow
 
@@ -119,18 +102,18 @@ Here is how a full task flows through the system:
 4. Once a time is finalized, Sync Agent sends it to Calendar Agent.
 5. **Calendar Agent** books the meeting via Google Calendar API.
 
----
 
-## 🌐 Hybrid Automation: Agents + Humans
+## 🤓 What I Learned
 
-What makes Secretary Agent powerful is its hybrid model:
+Building this project taught me a great deal about:
 
-- When everyone has an agent, it's _fully automated_.
-- When someone doesn't, it still works by gracefully switching to human-friendly channels like email.
+- **Multi-agent architecture with Google ADK:** While each user runs a multi-agent setup, the system’s potential truly shines when adopted at scale. Imagine a world where every individual has their own secretary agents, communicating seamlessly with others’ agents across organizations (an example of this is shown in the video demo). In this model, your "contact method" isn't just an email—it’s an intelligent interface.
+- **The importance of asymmetry in agent communication:** A key architectural challenge was preventing infinite negotiation loops between two identically programmed Sync Agents. The solution was an asymmetrical design, where the Sync Agent distinguishes between an initiator (who sends the request) and a responder (who replies with options). Without this, a request from Person A to B could trigger B to query A again, creating an endless loop. This role distinction keeps the logic coherent and convergent.
+- **Designing robust fallback systems:** Autonomous systems need to account for imperfect environments. Just like in autonomous vehicles literature, we talk about different 'levels' of automation to handle environments and systems that aren't fully smart, my agent system needed to work when the other party doesn’t have an agent. I designed the Sync Agent to detect whether the invitee has a known agent; if not, it gracefully falls back to sending an email. Responses to that email thread are parsed and routed back to the original Sync Agent, which treats them as if they were agent-generated responses.
+- **Real-world service integration:** Working with the Google Calendar API and Gmail meant managing state, authentication, and edge cases in event scheduling and communication —all while keeping the complexity abstracted from the other agents.
+- **The power of composable, task-specific agents:** Rather than building a single, all-knowing agent, I focused on creating smaller, focused agents that collaborate—each with a clear responsibility. This keeps the system modular and easier to debug, scale, and extend.
 
-This is a prime example of **agent collaboration across boundaries**: systems where automation enhances human interaction rather than replaces it.
-
----
+This project also deepened my appreciation for human-AI hybrid systems. The most satisfying moments often came from designing transitions—when agents hand off to humans and vice versa—without breaking the flow or losing context.
 
 ## ✨ Conclusion
 
