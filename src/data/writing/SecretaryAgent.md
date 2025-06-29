@@ -8,7 +8,7 @@ In this post, we'll walk through the system architecture and explain how each pa
 
 ## 🤓 What's the big idea?
 
-![High level system][/static/img/agent-system.png]
+![High level system](/static/img/agent-system.png)
 
 The core concept is simple: treat scheduling as a task that can be delegated to intelligent agents.
 
@@ -125,6 +125,9 @@ Secretary Agent turns an annoying part of modern life—scheduling—into a seam
 - A thoughtful approach to avoiding symmetrical negotiation loops
 
 As we move toward more intelligent systems, this project serves as a strong example of how agent-based architecture can bridge AI and real-world productivity.
+
+## 🎥 Video demo
+[![alt text](https://img.youtube.com/vi/-IONj-v1sXg/0.jpg)](https://youtu.be/-IONj-v1sXg)
 
 ---
 
