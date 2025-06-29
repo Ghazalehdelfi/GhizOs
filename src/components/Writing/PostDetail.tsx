@@ -34,23 +34,8 @@ export function PostDetail({ slug }) {
   return (
     <>
       <Detail.Container data-cy="post-detail" ref={scrollContainerRef}>
-        <TitleBar
-          backButton
-          globalMenu={false}
-          backButtonHref={'/writing'}
-          magicTitle
-          title={post.title}
-          titleRef={titleRef}
-          scrollContainerRef={scrollContainerRef}
-        />
-
         <Detail.ContentContainer>
-          <Detail.Header>
-            <Detail.Title ref={titleRef}>{post.title}</Detail.Title>
-          </Detail.Header>
-
           <MarkdownRenderer children={post.content} className="prose mt-8" />
-
           {/* bottom padding to give space between post content and comments */}
           <div className="py-6" />
         </Detail.ContentContainer>
