@@ -5,32 +5,15 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' })
-  }
-
-  try {
-    const { expenses } = req.body
-
-    // Get unique titles with their first occurrence
-    const uniqueTitles = expenses.reduce(
-      (acc: { [key: string]: { title: string; amount: number } }, exp: any) => {
-        if (!acc[exp.title]) {
-          acc[exp.title] = exp
-        }
-        return acc
-      },
-      {}
-    )
-
-    const uniqueExpenses = Object.values(uniqueTitles)
-
+// Process expenses in batches to avoid API limits
+async function categorizeBatch(expenses: any[], batchSize: number = 10) {
+  const results: string[] = []
+  
+  for (let i = 0; i < expenses.length; i += batchSize) {
+    const batch = expenses.slice(i, i + batchSize)
+    
     const prompt = `Given these unique expense titles:
-    ${uniqueExpenses.map((exp: any) => `Title: ${exp.title}, Amount: $${exp.amount}`).join('\n')}
+    ${batch.map((exp: any) => `Title: ${exp.title}, Amount: $${exp.amount}`).join('\n')}
 
     Please categorize each expense into one of these categories:
     - Food
@@ -64,7 +47,7 @@ export default async function handler(
     })
 
     const response = completion.choices[0].message.content?.trim() || '[]'
-    console.log('Raw response:', response)
+    console.log(`Batch ${Math.floor(i / batchSize) + 1} raw response:`, response)
 
     // Clean up the response to ensure it's valid JSON
     const cleanResponse = response
@@ -84,9 +67,65 @@ export default async function handler(
           .split(',')
           .map((cat) => cat.trim().replace(/"/g, ''))
       } else {
-        throw new Error('Could not parse categories from response')
+        // If all else fails, assign 'Other' to all items in this batch
+        categories = Array(batch.length).fill('Other')
       }
     }
+
+    // Ensure we have the right number of categories for this batch
+    if (categories.length !== batch.length) {
+      console.warn(`Batch ${Math.floor(i / batchSize) + 1} category count mismatch. Adjusting array length.`)
+      if (categories.length < batch.length) {
+        // Pad with 'Other' if we have fewer categories
+        categories = [
+          ...categories,
+          ...Array(batch.length - categories.length).fill('Other'),
+        ]
+      } else {
+        // Truncate if we have more categories
+        categories = categories.slice(0, batch.length)
+      }
+    }
+
+    results.push(...categories)
+    
+    // Add a small delay between batches to avoid rate limiting
+    if (i + batchSize < expenses.length) {
+      await new Promise(resolve => setTimeout(resolve, 100))
+    }
+  }
+  
+  return results
+}
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' })
+  }
+
+  try {
+    const { expenses } = req.body
+
+    // Get unique titles with their first occurrence
+    const uniqueTitles = expenses.reduce(
+      (acc: { [key: string]: { title: string; amount: number } }, exp: any) => {
+        if (!acc[exp.title]) {
+          acc[exp.title] = exp
+        }
+        return acc
+      },
+      {}
+    )
+
+    const uniqueExpenses = Object.values(uniqueTitles)
+    console.log('Total unique expenses to categorize:', uniqueExpenses.length)
+
+    // Process in batches of 10 (adjust this number based on your needs)
+    const batchSize = 10
+    const categories = await categorizeBatch(uniqueExpenses, batchSize)
 
     console.log('Categories length:', categories.length)
     console.log('Unique titles length:', uniqueExpenses.length)
@@ -95,25 +134,10 @@ export default async function handler(
       throw new Error('Response is not an array')
     }
 
-    // If lengths don't match, pad or truncate the categories array
-    if (categories.length !== uniqueExpenses.length) {
-      console.warn('Category count mismatch. Adjusting array length.')
-      if (categories.length < uniqueExpenses.length) {
-        // Pad with 'Other' if we have fewer categories
-        categories = [
-          ...categories,
-          ...Array(uniqueExpenses.length - categories.length).fill('Other'),
-        ]
-      } else {
-        // Truncate if we have more categories
-        categories = categories.slice(0, uniqueExpenses.length)
-      }
-    }
-
     // Create a map of title to category
     const titleToCategory = uniqueExpenses.reduce(
       (acc: { [key: string]: string }, exp: any, index: number) => {
-        acc[exp.title] = categories[index]
+        acc[exp.title] = categories[index] || 'Other'
         return acc
       },
       {}

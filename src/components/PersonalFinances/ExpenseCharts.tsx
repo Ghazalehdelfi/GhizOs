@@ -32,12 +32,14 @@ interface ExpenseChartsProps {
   expenses: Expense[]
   selectedYear: string
   selectedMonth: string
+  onCategoryClick?: (category: string | null) => void
 }
 
 export function ExpenseCharts({
   expenses,
   selectedYear,
   selectedMonth,
+  onCategoryClick,
 }: ExpenseChartsProps) {
   // Calculate monthly expenses for the bar chart
   const monthlyExpenses = React.useMemo(() => {
@@ -176,6 +178,13 @@ export function ExpenseCharts({
   const pieChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
+    onClick: (event: any, elements: any) => {
+      if (elements.length > 0 && onCategoryClick) {
+        const index = elements[0].index
+        const category = categoryExpenses.labels[index]
+        onCategoryClick(category)
+      }
+    },
     plugins: {
       legend: {
         position: 'bottom' as const,
@@ -185,6 +194,12 @@ export function ExpenseCharts({
           font: {
             size: 12,
           },
+        },
+        onClick: (event: any, legendItem: any) => {
+          if (onCategoryClick) {
+            const category = categoryExpenses.labels[legendItem.index]
+            onCategoryClick(category)
+          }
         },
       },
       title: {

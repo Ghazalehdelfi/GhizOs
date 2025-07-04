@@ -18,6 +18,7 @@ export default function PersonalFinancesVisualization() {
   const [expenses, setExpenses] = React.useState<Expense[]>([])
   const [selectedYear, setSelectedYear] = React.useState<string>('all')
   const [selectedMonth, setSelectedMonth] = React.useState<string>('all')
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null)
 
   // Load expenses from localStorage on component mount
   React.useEffect(() => {
@@ -68,26 +69,40 @@ export default function PersonalFinancesVisualization() {
     }
   }, [expenses])
 
-  // Filter expenses based on selected year and month
+  // Filter expenses based on selected year, month, and category
   const filteredExpenses = React.useMemo(() => {
-    if (selectedYear === 'all') return expenses
+    let filtered = expenses
 
-    return expenses.filter((expense) => {
-      const date = new Date(expense.date)
-      const year = date.getFullYear().toString()
-      const month = (date.getMonth() + 1).toString()
+    // Filter by year and month
+    if (selectedYear !== 'all') {
+      filtered = filtered.filter((expense) => {
+        const date = new Date(expense.date)
+        const year = date.getFullYear().toString()
+        const month = (date.getMonth() + 1).toString()
 
-      if (year !== selectedYear) return false
-      if (selectedMonth !== 'all' && month !== selectedMonth) return false
+        if (year !== selectedYear) return false
+        if (selectedMonth !== 'all' && month !== selectedMonth) return false
 
-      return true
-    })
-  }, [expenses, selectedYear, selectedMonth])
+        return true
+      })
+    }
+
+    // Filter by category
+    if (selectedCategory) {
+      filtered = filtered.filter((expense) => expense.group === selectedCategory)
+    }
+
+    return filtered
+  }, [expenses, selectedYear, selectedMonth, selectedCategory])
 
   // Reset month selection when year changes
   React.useEffect(() => {
     setSelectedMonth('all')
   }, [selectedYear])
+
+  const handleCategoryClick = (category: string | null) => {
+    setSelectedCategory(category)
+  }
 
   const handleBack = () => {
     // Clear the stored expenses when going back
@@ -117,57 +132,70 @@ export default function PersonalFinancesVisualization() {
           </p>
         </Detail.Header>
 
-        <div className="prose prose-quoteless prose-neutral dark:prose-invert">
-          <div className="flex justify-between items-center mb-6">
-            <div className="flex gap-4">
-              <select
-                value={selectedYear}
-                onChange={(e) => setSelectedYear(e.target.value)}
-                className="px-3 py-1 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm min-w-[120px]"
-              >
-                <option value="all">All Years</option>
-                {years.map((year) => (
-                  <option key={year} value={year}>
-                    {year}
+        <div className="flex justify-between items-center mb-6">
+          <div className="flex gap-4">
+            <select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value)}
+              className="px-3 py-1 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm min-w-[120px]"
+            >
+              <option value="all">All Years</option>
+              {years.map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+
+            <select
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(e.target.value)}
+              disabled={selectedYear === 'all'}
+              className={`px-3 py-1 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm min-w-[140px] ${
+                selectedYear === 'all' ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
+            >
+              <option value="all">All Months</option>
+              {selectedYear !== 'all' &&
+                monthsByYear.get(selectedYear)?.map((month) => (
+                  <option key={month} value={month}>
+                    {new Date(
+                      parseInt(selectedYear),
+                      parseInt(month) - 1
+                    ).toLocaleDateString('default', { month: 'long' })}
                   </option>
                 ))}
-              </select>
-
-              <select
-                value={selectedMonth}
-                onChange={(e) => setSelectedMonth(e.target.value)}
-                disabled={selectedYear === 'all'}
-                className={`px-3 py-1 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-800 text-sm min-w-[140px] ${
-                  selectedYear === 'all' ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
+            </select>
+          </div>
+          
+          {selectedCategory && (
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-gray-600 dark:text-gray-400">
+                Filtered by: <span className="font-medium">{selectedCategory}</span>
+              </span>
+              <button
+                onClick={() => setSelectedCategory(null)}
+                className="px-2 py-1 text-xs bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
               >
-                <option value="all">All Months</option>
-                {selectedYear !== 'all' &&
-                  monthsByYear.get(selectedYear)?.map((month) => (
-                    <option key={month} value={month}>
-                      {new Date(
-                        parseInt(selectedYear),
-                        parseInt(month) - 1
-                      ).toLocaleDateString('default', { month: 'long' })}
-                    </option>
-                  ))}
-              </select>
+                Clear
+              </button>
             </div>
-          </div>
+          )}
+        </div>
 
-          <div className="mt-8">
-            <ExpenseCharts
-              expenses={filteredExpenses}
-              selectedYear={selectedYear}
-              selectedMonth={selectedMonth}
-            />
-          </div>
-          <ExpenseTable
+        <div className="mt-8">
+          <ExpenseCharts
             expenses={filteredExpenses}
             selectedYear={selectedYear}
             selectedMonth={selectedMonth}
+            onCategoryClick={handleCategoryClick}
           />
         </div>
+        <ExpenseTable
+          expenses={filteredExpenses}
+          selectedYear={selectedYear}
+          selectedMonth={selectedMonth}
+        />
       </Detail.ContentContainer>
     </Detail.Container>
   )

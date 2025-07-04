@@ -161,78 +161,78 @@ export default function PersonalFinancesCategorize() {
           </p>
         </Detail.Header>
 
-        <div className="prose prose-quoteless prose-neutral dark:prose-invert">
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-              <thead className="bg-gray-50 dark:bg-gray-800">
-                <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Date
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Title
-                  </th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Amount
-                  </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                    Category
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
-                {expenses.map((expense, index) => (
-                  <tr
-                    key={index}
-                    className="hover:bg-gray-50 dark:hover:bg-gray-800"
-                  >
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                      {new Date(expense.date).toLocaleDateString()}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+        <div className="overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-lg">
+          <table className="w-full table-fixed divide-y divide-gray-200 dark:divide-gray-700">
+            <thead className="bg-gray-50 dark:bg-gray-800">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-20">
+                  Date
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                  Title
+                </th>
+                <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-20">
+                  Amount
+                </th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider w-28">
+                  Category
+                </th>
+              </tr>
+            </thead>
+            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
+              {expenses.map((expense, index) => (
+                <tr
+                  key={index}
+                  className="hover:bg-gray-50 dark:hover:bg-gray-800"
+                >
+                  <td className="px-4 py-4 text-sm text-gray-900 dark:text-gray-100 w-20">
+                    {new Date(expense.date).toLocaleDateString()}
+                  </td>
+                  <td className="px-4 py-4 text-sm text-gray-900 dark:text-gray-100">
+                    <div className="truncate" title={expense.title}>
                       {expense.title}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900 dark:text-gray-100">
-                      ${expense.amount.toFixed(2)}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm">
-                      <select
-                        value={expense.suggestedGroup}
-                        onChange={(e) =>
-                          handleCategoryChange(index, e.target.value)
-                        }
-                        className={`px-2 py-1 border rounded-md text-sm ${
-                          expense.isConfirmed
-                            ? 'border-green-500 dark:border-green-400'
-                            : 'border-gray-300 dark:border-gray-700'
-                        } bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100`}
-                      >
-                        <option value="Food">Food</option>
-                        <option value="Transportation">Transportation</option>
-                        <option value="Housing">Housing</option>
-                        <option value="Utilities">Utilities</option>
-                        <option value="Entertainment">Entertainment</option>
-                        <option value="Shopping">Shopping</option>
-                        <option value="Healthcare">Healthcare</option>
-                        <option value="Education">Education</option>
-                        <option value="Travel">Travel</option>
-                        <option value="Other">Other</option>
-                      </select>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    </div>
+                  </td>
+                  <td className="px-4 py-4 text-sm text-right text-gray-900 dark:text-gray-100 w-20">
+                    ${expense.amount.toFixed(2)}
+                  </td>
+                  <td className="px-4 py-4 text-sm w-28">
+                    <select
+                      value={expense.suggestedGroup}
+                      onChange={(e) =>
+                        handleCategoryChange(index, e.target.value)
+                      }
+                      className={`w-full px-2 py-1 border rounded-md text-sm ${
+                        expense.isConfirmed
+                          ? 'border-green-500 dark:border-green-400'
+                          : 'border-gray-300 dark:border-gray-700'
+                      } bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100`}
+                    >
+                      <option value="Food">Food</option>
+                      <option value="Transportation">Transportation</option>
+                      <option value="Housing">Housing</option>
+                      <option value="Utilities">Utilities</option>
+                      <option value="Entertainment">Entertainment</option>
+                      <option value="Shopping">Shopping</option>
+                      <option value="Healthcare">Healthcare</option>
+                      <option value="Education">Education</option>
+                      <option value="Travel">Travel</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
-          <div className="mt-8 flex justify-end">
-            <button
-              onClick={handleContinue}
-              className="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
-            >
-              Continue to Visualization
-            </button>
-          </div>
+        <div className="mt-8 flex justify-end">
+          <button
+            onClick={handleContinue}
+            className="px-6 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
+          >
+            Continue to Visualization
+          </button>
         </div>
       </Detail.ContentContainer>
     </Detail.Container>

@@ -85,30 +85,30 @@ export function ExpenseTable({
         </h3>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+      <div className="overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-lg">
+        <table className="w-full table-fixed divide-y divide-gray-200 dark:divide-gray-700">
           <thead className="bg-gray-50 dark:bg-gray-800">
             <tr>
               <th
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 w-20"
                 onClick={() => handleSort('date')}
               >
                 Date <SortIcon field="date" />
               </th>
               <th
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
                 onClick={() => handleSort('title')}
               >
                 Title <SortIcon field="title" />
               </th>
               <th
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 w-28"
                 onClick={() => handleSort('group')}
               >
                 Category <SortIcon field="group" />
               </th>
               <th
-                className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+                className="px-4 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 w-20"
                 onClick={() => handleSort('amount')}
               >
                 Amount <SortIcon field="amount" />
@@ -121,16 +121,20 @@ export function ExpenseTable({
                 key={index}
                 className="hover:bg-gray-50 dark:hover:bg-gray-800"
               >
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                <td className="px-4 py-4 text-sm text-gray-900 dark:text-gray-100 w-20">
                   {new Date(expense.date).toLocaleDateString()}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                  {expense.title}
+                <td className="px-4 py-4 text-sm text-gray-900 dark:text-gray-100">
+                  <div className="truncate" title={expense.title}>
+                    {expense.title}
+                  </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
-                  {expense.group}
+                <td className="px-4 py-4 text-sm text-gray-900 dark:text-gray-100 w-28">
+                  <div className="truncate" title={expense.group}>
+                    {expense.group}
+                  </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900 dark:text-gray-100">
+                <td className="px-4 py-4 text-sm text-right text-gray-900 dark:text-gray-100 w-20">
                   ${expense.amount.toFixed(2)}
                 </td>
               </tr>
@@ -138,11 +142,11 @@ export function ExpenseTable({
             <tr className="bg-gray-50 dark:bg-gray-800 font-semibold">
               <td
                 colSpan={3}
-                className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
+                className="px-4 py-4 text-sm text-gray-900 dark:text-gray-100"
               >
                 Total
               </td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-900 dark:text-gray-100">
+              <td className="px-4 py-4 text-sm text-right text-gray-900 dark:text-gray-100 w-20">
                 ${total.toFixed(2)}
               </td>
             </tr>
