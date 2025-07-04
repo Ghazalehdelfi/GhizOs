@@ -8,10 +8,10 @@ const openai = new OpenAI({
 // Process expenses in batches to avoid API limits
 async function categorizeBatch(expenses: any[], batchSize: number = 10) {
   const results: string[] = []
-  
+
   for (let i = 0; i < expenses.length; i += batchSize) {
     const batch = expenses.slice(i, i + batchSize)
-    
+
     const prompt = `Given these unique expense titles:
     ${batch.map((exp: any) => `Title: ${exp.title}, Amount: $${exp.amount}`).join('\n')}
 
@@ -47,7 +47,10 @@ async function categorizeBatch(expenses: any[], batchSize: number = 10) {
     })
 
     const response = completion.choices[0].message.content?.trim() || '[]'
-    console.log(`Batch ${Math.floor(i / batchSize) + 1} raw response:`, response)
+    console.log(
+      `Batch ${Math.floor(i / batchSize) + 1} raw response:`,
+      response
+    )
 
     // Clean up the response to ensure it's valid JSON
     const cleanResponse = response
@@ -74,7 +77,9 @@ async function categorizeBatch(expenses: any[], batchSize: number = 10) {
 
     // Ensure we have the right number of categories for this batch
     if (categories.length !== batch.length) {
-      console.warn(`Batch ${Math.floor(i / batchSize) + 1} category count mismatch. Adjusting array length.`)
+      console.warn(
+        `Batch ${Math.floor(i / batchSize) + 1} category count mismatch. Adjusting array length.`
+      )
       if (categories.length < batch.length) {
         // Pad with 'Other' if we have fewer categories
         categories = [
@@ -88,13 +93,13 @@ async function categorizeBatch(expenses: any[], batchSize: number = 10) {
     }
 
     results.push(...categories)
-    
+
     // Add a small delay between batches to avoid rate limiting
     if (i + batchSize < expenses.length) {
-      await new Promise(resolve => setTimeout(resolve, 100))
+      await new Promise((resolve) => setTimeout(resolve, 100))
     }
   }
-  
+
   return results
 }
 

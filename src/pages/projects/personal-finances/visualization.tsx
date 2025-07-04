@@ -18,7 +18,9 @@ export default function PersonalFinancesVisualization() {
   const [expenses, setExpenses] = React.useState<Expense[]>([])
   const [selectedYear, setSelectedYear] = React.useState<string>('all')
   const [selectedMonth, setSelectedMonth] = React.useState<string>('all')
-  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null)
+  const [selectedCategory, setSelectedCategory] = React.useState<string | null>(
+    null
+  )
 
   // Load expenses from localStorage on component mount
   React.useEffect(() => {
@@ -89,7 +91,9 @@ export default function PersonalFinancesVisualization() {
 
     // Filter by category
     if (selectedCategory) {
-      filtered = filtered.filter((expense) => expense.group === selectedCategory)
+      filtered = filtered.filter(
+        (expense) => expense.group === selectedCategory
+      )
     }
 
     return filtered
@@ -167,11 +171,12 @@ export default function PersonalFinancesVisualization() {
                 ))}
             </select>
           </div>
-          
+
           {selectedCategory && (
             <div className="flex items-center gap-2">
               <span className="text-sm text-gray-600 dark:text-gray-400">
-                Filtered by: <span className="font-medium">{selectedCategory}</span>
+                Filtered by:{' '}
+                <span className="font-medium">{selectedCategory}</span>
               </span>
               <button
                 onClick={() => setSelectedCategory(null)}
