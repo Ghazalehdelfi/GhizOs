@@ -36,7 +36,6 @@ At a glance, Secretary Agent consists of three specialized agents:
 
 The system determines whether the invitee has an agent (via a "phone book") and chooses the right communication channel: automated negotiation or human-in-the-loop via email.
 
-
 ## 💪 Core Components and Code Walkthrough
 
 ### 1. Host Agent: The Orchestrator
@@ -89,7 +88,6 @@ This component interacts directly with the Google Calendar API. It:
 
 The agent abstracts Google API interaction so that other agents never need to deal with credentials or response parsing.
 
-
 ## ⚛️ Execution Flow
 
 Here is how a full task flows through the system:
@@ -101,7 +99,6 @@ Here is how a full task flows through the system:
    - If no: sends an email, parses the reply.
 4. Once a time is finalized, Sync Agent sends it to Calendar Agent.
 5. **Calendar Agent** books the meeting via Google Calendar API.
-
 
 ## 🤓 What I Learned
 
@@ -127,6 +124,7 @@ Secretary Agent turns an annoying part of modern life—scheduling—into a seam
 As we move toward more intelligent systems, this project serves as a strong example of how agent-based architecture can bridge AI and real-world productivity.
 
 ## 🎥 Video demo
+
 [![alt text](https://img.youtube.com/vi/-IONj-v1sXg/0.jpg)](https://youtu.be/-IONj-v1sXg)
 
 ---

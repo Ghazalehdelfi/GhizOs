@@ -115,12 +115,10 @@ export function Intro() {
             width={800}
             height={400}
           />
-
           <SectionContainer>
             <SectionTitle>Bio</SectionTitle>
             <SectionContent>
               <div className="flex flex-row gap-[10px]">
-
                 <div className="prose text-primary">
                   <p>
                     Hey, I&apos;m Ghazaleh. I&apos;m a machine learning engineer

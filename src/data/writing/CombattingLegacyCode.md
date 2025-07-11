@@ -13,6 +13,7 @@ Here’s some lessons I've learnt.
 The Broken Windows Theory suggests that visible signs of disorder invite more disorder. The same holds true in large development teams. When the build is constantly broken, commits are chaotic, linting is ignored, and outdated patterns linger, inertia takes over. It’s hard to drive improvement alone when the environment resists it.
 
 But small acts of discipline send a powerful signal:
+
 - Change is underway.
 - The team’s tolerance for chaos is shrinking.
 
