@@ -1,5 +1,4 @@
 import Image from 'next/image'
-import Link from 'next/link'
 import * as React from 'react'
 import { MapPin } from 'react-feather'
 
@@ -109,19 +108,19 @@ export function Intro() {
     <Detail.Container data-cy="home-intro">
       <Detail.ContentContainer>
         <div className="pb-24 sm:pt-16 space-y-8 md:space-y-16">
+          <Image
+            src="/static/img/banner.png"
+            className="rounded-2xl w-auto"
+            alt="Image of me"
+            width={800}
+            height={400}
+          />
+
           <SectionContainer>
             <SectionTitle>Bio</SectionTitle>
             <SectionContent>
               <div className="flex flex-row gap-[10px]">
-                <Image
-                  priority
-                  src="/static/img/me.jpeg"
-                  width={200}
-                  height={200}
-                  className="rounded-2xl"
-                  quality={100}
-                  alt="Image of me"
-                />
+
                 <div className="prose text-primary">
                   <p>
                     Hey, I&apos;m Ghazaleh. I&apos;m a machine learning engineer
