@@ -68,9 +68,7 @@ The “opposed” group often argues that the old way was better. Take John Phil
 
 > “These talking machines are going to ruin the artistic development of music in this country. When I was a boy... in front of every house in the summer evenings, you would find young people together singing the songs of the day or old songs. Today you hear these infernal machines going night and day. We will not have a vocal cord left. The vocal cord will be eliminated by a process of evolution, as was the tail of man when he came from the ape.”
 
-Fast-forward 150+ years: recording didn’t kill music. It just *transformed* it. And I think the same is true for LLMs.
-
-That was in 1854. Now more than 150 years later we can see that the process of recording of music didn’t eliminate it, but merely transformed our relationship to it. and I think this holds true of LLMs and AI as well. Here’s what I’m most excited about:
+Fast-forward 150+ years: recording didn’t kill music. It just *transformed* it. And I think the same is true for LLMs. Here’s what I’m most excited about:
 
 - **New roles and jobs**: Just like there were not web devs before the dot-com boom, the AI boom will need builders, integrators, and maintainers of AI systems.
 - **Democratized learning**: LLMs have become great sounding boards. I’ve used them to study papers or topics I struggled to understand before.
