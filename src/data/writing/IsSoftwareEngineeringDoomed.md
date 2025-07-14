@@ -58,7 +58,7 @@ Here are couple of articles I have found useful to use AI as a multiplier of for
 
 ## Final Thoughts
 
-Adib Ghorbani, in his [music literacy course](https://decodingml.substack.com/p/stop-building-ai-agents) (highly recommended btw), talks about how humans tend to react to new technologies in three ways:
+Adib Ghorbani, in his [music literacy course](https://www.adibghorbani.com/classes) (highly recommended btw), talks about how humans tend to react to new technologies in three ways:
 
 - The opposed: Those that feel threatened by the coming change, chances are they have established practices in the previous way of doing things and the looming change brings feelings of anxiety.
 - The excited: Those welcoming and utilizing the coming change, they identify potential ways of using the new technology to unlock opportunities that weren’t previously possible.
