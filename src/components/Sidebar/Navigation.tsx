@@ -9,6 +9,7 @@ import {
   HomeIcon,
   LetterBoxdIcon,
   LinkedInIcon,
+  RSSIcon,
   StackIcon,
   WritingIcon,
 } from '~/components/Icon'
@@ -51,6 +52,16 @@ export function SidebarNavigation() {
           icon: BookmarksIcon,
           trailingAccessory: null,
           isActive: router.asPath.indexOf('/bookmarks') >= 0,
+          trailingAction: null,
+          isExternal: false,
+        },
+
+        {
+          href: '/rss',
+          label: 'RSS',
+          icon: RSSIcon,
+          trailingAccessory: null,
+          isActive: router.asPath.indexOf('/rss') >= 0,
           trailingAction: null,
           isExternal: false,
         },

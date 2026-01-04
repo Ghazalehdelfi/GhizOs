@@ -94,6 +94,16 @@ const routes = {
       url: 'stack',
     }),
   },
+  rss: {
+    label: 'RSS',
+    path: '/rss',
+    seo: extendSEO({
+      title: 'RSS',
+      description: 'Recent posts from blogs I follow.',
+      image: 'og/rss.png',
+      url: 'rss',
+    }),
+  },
   settings: {
     label: 'Settings',
     path: '/settings',

@@ -812,6 +812,20 @@ export function DockerIcon() {
   )
 }
 
+export function RSSIcon() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      width="16"
+      height="16"
+      fill="currentColor"
+    >
+      <path d="M5 3a2 2 0 0 0 0 4c5.523 0 10 4.477 10 10a2 2 0 1 0 4 0C19 7.925 14.075 3 8 3a2 2 0 0 0-3 0zm2 8a2 2 0 0 0 0 4 6 6 0 0 0 6-6 2 2 0 1 0-4 0 2 2 0 0 1-2 2zm-3 9a2 2 0 1 0 4 0 2 2 0 0 0-4 0z" />
+    </svg>
+  )
+}
+
 export function LangchainIcon() {
   return (
     <svg
